@@ -2,7 +2,7 @@
 
 ``` Aptamers are single stranded nucleotides, with applications comparable to those of antibodies - targeted drug delivery, bio-sensors etc - while being more chemically malleable.```
 
-In this repo, we compile the tools and data utilized during the development of this thesis. 
+In this repo, we compile the tools and data utilized during the development of the work: 'Designing in silico aptamers for potential marine bioremediation'. 
 
 * /raw_data/AptaCom -> Consists of the compiled non redundant data from ana array of various aptamer databases:
   * The dataset describes aptamers, their targets and their interaction as follows: 
