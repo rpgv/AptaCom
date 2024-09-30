@@ -4,7 +4,7 @@
 
 In this repo, we compile the tools and data utilized during the development of the work: 'Designing in silico aptamers for potential marine bioremediation'. 
 
-* /raw_data/AptaCom -> Consists of the compiled non redundant data from ana array of various aptamer databases:
+* /Database/AptaCom -> Consists of the compiled non redundant data from ana array of various aptamer databases:
   * The dataset describes aptamers, their targets and their interaction as follows: 
 <table>
   <tr>
@@ -35,18 +35,10 @@ In this repo, we compile the tools and data utilized during the development of t
   </tr>
 </table>
 
-* Model_Predict.json describes a XGBoost model built for predicting aptamer target interactions (Binding vs No Binding)
+* Model/Model_Predict.json describes a XGBoost model built for predicting aptamer target interactions (Binding vs No Binding)
    * This model is implemented as such:
 
      ```repo not complete feature model still not up```
      
-* Feature_extraction.py describes the pipeline to retrieve aptamer/target (protein) features based on ```full pipeline still not up, functions are working tho```:
-      <table>
-        <tr>
-          <th>Aptamer Sequence</th>
-          <th>Target Sequence </th>
-          <th>Target PDB File</th>
-        </tr>
-      </table>
 
   
