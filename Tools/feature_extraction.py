@@ -1,7 +1,6 @@
 #Complete data extraction pipeline
 import pandas as pd
 import os
-import time
 import itertools as it
 from PyBioMed.PyDNA.PyDNAac import *
 from PyBioMed.PyDNA.PyDNAac import GetDAC
@@ -11,19 +10,13 @@ from PyBioMed.PyDNA.PyDNAnac import *
 from PyBioMed.PyDNA.PyDNApsenac import *
 from PyBioMed.PyDNA.PyDNAutil import *
 from PyBioMed import Pyprotein
-from pprint import pprint
-import itertools as it
-import pandas as pd
-import numpy as np
-from biopandas.pdb import PandasPdb as bp
-import Bio.PDB
 APT = "AGTCGATGGCTGAGGGATCGATG" #These are sample sequences tocreate a template
 TRGT = "MWLGRRALCALVLLLACASLGLLYASTRDAPGLRLPLAPWAPPQSPRRVTLTGEGQADLTLLQCMTSQ"
-PATH = '' #Correct path
 #Path where SurfMap will work from. 
+# ON unix systems -> main creates the dirs following the following dir structures:
 # Surfmap will retrieve proteins from ./'surfmap_path'/ProteinStructures - structures should be named: 'structure id'_structure.pdb
-# Surfmap stores it's results inside ./'surfmap_path'/SurfmapOut
-surfmap_path = f""
+# Surfmap stores it's results inside ./'surfmap_path'/SurfmapOut/smoothed_matrices
+surfmap_path = f"./Run_FeatureExtract"
 
 #This funciton runs trhough pybiomeds features and characterizes the given protein and nucelotide sequence
 def GetAll_Pair(dna,prot):
@@ -78,19 +71,19 @@ def surfmap_creator(df:pd.DataFrame):
         if f'{i}_structure_circular_variance_smoothed_matrix.txt' not in files:#Correct paths
             print("\nCurrently creating map for protein:",i)
             os.system(f"surfmap -pdb {surfmap_path}/ProteinStructures/{i}_structure.pdb -tomap circular_variance -d {surfmap_path}/SurfmapOut/ --docker") #Correct paths
+        else: pass
 #This function doesnt return anything;
 
 #This function receives the same dataframe fed into 'surfmap_creator' function, and uses it to retrieve the output of the surfmap run
 #from this txt output it generates a dataframe of surface features organized per PDB_ID - must match filename
 def surfmap_retriever(df):
     # output_SURFMAP_{i}_structure_all_properties
-    # ids = list(df["PDB_ID"])
-    ids = list(df["Entry_id"])
+    ids = list(df["PDB_ID"])
     ish = df.shape
     merge = pd.DataFrame()
     for i in ids:
         matrix1 = pd.read_csv(
-            f'{surfmap_path}/SurfmapOut/{i}_circular_variance_smoothed_matrix.txt',#Correct paths
+            f'{surfmap_path}/SurfmapOut/smoothed_matrices/{i}_structure_circular_variance_smoothed_matrix.txt',#Correct paths
             delimiter="\t")
         matrix1 = matrix1.rename(columns={"svalue": "svalue1"})
         matrix1 = matrix1["svalue1"]
@@ -101,7 +94,7 @@ def surfmap_retriever(df):
     df = pd.concat([df, merge], axis=1)
 
     extra_columns = [i for i in list(df.columns) if ".1" in str(i)]
-    new_columns = {i:f"{i.replace(".1", "")}_SMap" for i in extra_columns}
+    new_columns = {i:f"{i.replace('.1', '')}_SMap" for i in extra_columns}
     df.rename(inplace=True, columns=new_columns)
 
     print(f'Resulting DF of shape: {df.shape} from original shape (DF): {ish} and original shape (MERGED): {merge.shape}')
@@ -219,4 +212,27 @@ def convert_sequence(seq):
     #print("New:",new_seq)
     return new_seq
 
+if __name__ == '__main__':
+    os.system("mkdir ./Run_FeatureExtract/SurfmapOut")
+    os.system("mkdir ./Run_FeatureExtract/SurfmapOut/smoothed_matrices")
+    df = pd.read_csv("./Run_FeatureExtract/screening.csv") #Insert a CSV containing 3 columns Aptamer (DNA) sequence
+    # Protein target (amino acid) sequence and protein target ID -> ["Aptamer Sequence", "Target Sequence", "PDB_ID"]
+    print(f"Dataframe Shape:{df.shape}, with columns {df.columns}")
+    # Converting pandas df to simple dict; 
+    base = {i:[] for i in df.columns}
+    dfd = df.to_dict()
+    for i in dfd:
+            base[i] = list(dfd[i].values())
+    # Creates a template dict to populate with the converted dict (base)
+    template = template_dict()
+    template.update(base)
+    # Retrieve the sequence related features;
+    features = retrieve_features(template)
+    # Convert to Dataframe
+    feat = pd.DataFrame.from_dict(features)
 
+    # SurfMap creation - IT CAN'T RUN ON JUPYTER, only IDE
+    # surfmap_creator(feat)
+    # After running, retrieve structure information
+    df = surfmap_retriever(feat)
+    df.to_csv("sample_aptamer.csv", index=False)
