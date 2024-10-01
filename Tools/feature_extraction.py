@@ -89,13 +89,13 @@ def surfmap_retriever(df):
         matrix1 = matrix1["svalue1"]
         merge = pd.concat([merge, matrix1], axis=1)
     merge = merge.transpose()
-    merge = merge.reset_index()
+    merge = merge.reset_index(drop=True)
+    extra_columns = [i for i in list(merge.columns) if int(i) >=111 and int(i)<=777]
+    new_columns = {i:f"{str(i).replace('.1', '')}_SMap" for i in extra_columns}
+    merge.rename(inplace=True, columns=new_columns)
+
     df = df.reset_index()
     df = pd.concat([df, merge], axis=1)
-
-    extra_columns = [i for i in list(df.columns) if ".1" in str(i)]
-    new_columns = {i:f"{i.replace('.1', '')}_SMap" for i in extra_columns}
-    df.rename(inplace=True, columns=new_columns)
 
     print(f'Resulting DF of shape: {df.shape} from original shape (DF): {ish} and original shape (MERGED): {merge.shape}')
     return df #returns dataframe containing surfmap features
@@ -186,6 +186,7 @@ def protein_group_kmers(ds:dict):
     for i in ["P","N","U","A","S","O"]:
         ds[f'{i}_GroupContent'] = []
     if "Target Grouped Sequence" not in list(ds.keys()):
+        print("Error doesnt contain target grouped sequence column")
         return "Error - Dictionary doesn't contain 'Target Grouped Sequence'"
     else:
         for s in ds["Target Grouped Sequence"]:
@@ -240,5 +241,4 @@ if __name__ == '__main__':
     # surfmap_creator(feat)
     # After running, retrieve structure information
     df = surfmap_retriever(feat)
-    df.to_csv("sample_aptamer.csv", index=False)
-
+    df.to_csv("/Users/rpgv2000/Desktop/Masters/Dissertation/Data_analysis/Model/Model_Implementation/sample_aptamer.csv", index=False)
