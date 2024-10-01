@@ -228,11 +228,17 @@ if __name__ == '__main__':
     template.update(base)
     # Retrieve the sequence related features;
     features = retrieve_features(template)
+    # Grouping amino acid sequences 
+    features["Target Grouped Sequence"] = []
+    for i in template["Target Sequence"]:
+        new_sequence = convert_sequence(i)
+        features["Target Grouped Sequence"].append(new_sequence)
+    new_features = protein_group_kmers(features)
     # Convert to Dataframe
-    feat = pd.DataFrame.from_dict(features)
-
+    feat = pd.DataFrame.from_dict(new_features)
     # SurfMap creation - IT CAN'T RUN ON JUPYTER, only IDE
     # surfmap_creator(feat)
     # After running, retrieve structure information
     df = surfmap_retriever(feat)
     df.to_csv("sample_aptamer.csv", index=False)
+
