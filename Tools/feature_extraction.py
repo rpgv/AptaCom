@@ -216,8 +216,7 @@ def convert_sequence(seq):
 if __name__ == '__main__':
     os.system("mkdir ./Run_FeatureExtract/SurfmapOut")
     os.system("mkdir ./Run_FeatureExtract/SurfmapOut/smoothed_matrices")
-    df = pd.read_csv("./Run_FeatureExtract/screening.csv") #Insert a CSV containing 3 columns Aptamer (DNA) sequence
-    # Protein target (amino acid) sequence and protein target ID -> ["Aptamer Sequence", "Target Sequence", "PDB_ID"]
+    df = pd.read_csv("./Run_FeatureExtract/screening.csv") #Insert a CSV containing 3 columns -> ["Aptamer Sequence", "Target Sequence", "PDB_ID"]
     print(f"Dataframe Shape:{df.shape}, with columns {df.columns}")
     # Converting pandas df to simple dict; 
     base = {i:[] for i in df.columns}
@@ -241,4 +240,4 @@ if __name__ == '__main__':
     # surfmap_creator(feat)
     # After running, retrieve structure information
     df = surfmap_retriever(feat)
-    df.to_csv("/Users/rpgv2000/Desktop/Masters/Dissertation/Data_analysis/Model/Model_Implementation/sample_aptamer.csv", index=False)
+    df.to_csv("sample_aptamer.csv", index=False)
