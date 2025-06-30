@@ -13,22 +13,18 @@ To run this script, you'll need the following Python packages:
 1.  **XGBoost:** 
     *   Core XGBoost implementation for classification;
     *   Installation: `pip install xgboost`
-    *   Installation: `uv add xgboost`
 
 2.  **pandas:**
     *   To load input (CSV shaped file);
     *   Installation: `pip install pandas`
-    *   Installation: `uv add pandas`
 
 3.  **pyBioMed:**
     *   Extracts features from sequences used in prediction;
     *   Installation: `pip install pyBioMed`
-    *   Installation: `uv add pybiomed`
 
 4.  **rust-sasa-python:**
     *   Extracts features from protein pdb files used in prediction;
     *   Installation: `pip install rust-sasa-python`
-    *   Installation: `uv add rust-sasa-python`
 
 5.  **MXfold2:**
     *   Extracts Aptamer secondary structure;
@@ -39,9 +35,9 @@ To run this script, you'll need the following Python packages:
 
 1.  Clone this repository: `git clone https://github.com/rpgv/AptaCom.git`
 2.  Navigate to the repository directory: `cd AptaCom/Model`
-3.  Install the required packages using pip: `pip install -r requirements.txt` or `uv add -r requirements.txt`
-    *   Alternatively, install packages individually using `pip install xgboost pandas pyBioMed rust-sasa-python` or `uv add xgboost pandas pyBioMed rust-sasa-python` 
-    *   Note: Install rich `pip install rich` or `uv add rich` for colorful outputs;
+3.  Install the required packages using pip: `pip install -r requirements.txt`;
+    *   Alternatively, install packages individually using `pip install xgboost pandas pyBioMed rust-sasa-python`;
+    *   Note: Install rich `pip install rich` for colorful outputs;
 4.  Create a CSV file following this format:
   <table>
     <thead>
