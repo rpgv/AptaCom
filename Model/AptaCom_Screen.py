@@ -276,9 +276,8 @@ if __name__ == "__main__":
     m3.load_model("Model_Class_m16.json")
     # Load Screening dataset
     df = pd.read_csv("./ExtractedFeatures_screening.csv")
-    y_true = df["Binding"]
     to_drop = [i for i in df.columns if "Aptamer" in i or "Target" in i or "Entry" in i or "Binding" in i or i == "SS" or "PDB_ID" in i]
-    to_drop = to_drop + ["Binding"]
+    to_drop = to_drop
     X = df.drop(to_drop, axis=1)
     y_pred = m3.predict(X)
     print(f"Aptamers expected to interact with protein target:")
