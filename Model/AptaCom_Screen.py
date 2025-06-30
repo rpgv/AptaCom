@@ -229,7 +229,7 @@ if __name__ == "__main__":
     output = build_df(merged_token)
     print(f"Protein SASA Shape: {output.shape}")
     merged_sasa = pd.concat([merged_token, output], axis=1)
-    merged_sasa.to_csv("ProteinSasa_screenin.csv",index=False) # Intermediate file
+    merged_sasa.to_csv("ProteinSasa_screening.csv",index=False) # Intermediate file
     print("[green]FINISHED SASA calculation[/green]")
     ########### Finished Protein SASA Extraction  ###############
 
