@@ -236,19 +236,32 @@ if __name__ == "__main__":
 
 
     ########## Starting Aptamer SS prediction ###################
-    print("Starting aptamer Secondary Structure prediction")
-    merged_sasa = pd.read_csv("ProteinSasa_screening.csv")
-    ss_table = predict_ss(merged_sasa)
-    ss_df = pd.DataFrame().from_dict(ss_table)
-    print(f"Aptamer SS_df table shape: {ss_df.shape}")
-    print("Segmenting SS counts per aptamer section - divides apt sequence into 4 segments and accounts for number of ss units per section")
-    #ss_df.to_csv("Aptamer_Secondary_Structure_Table.csv", index=False) # Intermediate file
-    ss_segments = analyse_ss(ss_df)
-    print("Segmented SS counts shape: {ss_segments.shape}")
-    merged_ss = pd.concat([ss_segments, merged_sasa], axis=1)
-    ########## Finished Aptamer SS prediction ###################
-    print("[green]Process finished saving file to ExtractedFeatures.csv ...[/green]")
-    merged_ss.to_csv("ExtractedFeatures_screening.csv", index=False)
+    try:
+        print("Starting aptamer Secondary Structure prediction")
+        merged_sasa = pd.read_csv("ProteinSasa_screening.csv")
+        ss_table = predict_ss(merged_sasa)
+        ss_df = pd.DataFrame().from_dict(ss_table)
+        print(f"Aptamer SS_df table shape: {ss_df.shape}")
+        print("Segmenting SS counts per aptamer section - divides apt sequence into 4 segments and accounts for number of ss units per section")
+        #ss_df.to_csv("Aptamer_Secondary_Structure_Table.csv", index=False) # Intermediate file
+        ss_segments = analyse_ss(ss_df)
+        print("Segmented SS counts shape: {ss_segments.shape}")
+        merged_ss = pd.concat([ss_segments, merged_sasa], axis=1)
+        ########## Finished Aptamer SS prediction ###################
+        print("[green]Process finished saving file to ExtractedFeatures.csv ...[/green]")
+        merged_ss.to_csv("ExtractedFeatures_screening.csv", index=False)
+    except:
+        print("[red]\nError in Aptamer Secondary Structure Prediction\nMight be due to problems in mxfold2 installation[/red]")
+        if 'SS' in list(data.columns):
+            print("Falling back on SS structures present in CSV input file")
+            ss_segments = analyse_ss(ss_df)
+            print("Segmented SS counts shape: {ss_segments.shape}")
+            merged_ss = pd.concat([ss_segments, merged_sasa], axis=1)
+            print("[green]Process finished saving file to ExtractedFeatures.csv ...[/green]")
+            merged_ss.to_csv("ExtractedFeatures_screening.csv", index=False)
+        else:
+            print("[red]Could not complete feature extraction due to missing Secondary Strucutre column and missing mxfold2 installation[/red]")
+            quit()
 
     ############## Concatenating Datasets #######################
 
@@ -261,12 +274,21 @@ if __name__ == "__main__":
     # (Load Model)
     m3 = xgboost.XGBClassifier()
     m3.load_model("Model_Class_m16.json")
-    #Load Validation dataset
-    df = pd.read_csv("./CSVs/Validation_dataset.csv")
+    # Load Screening dataset
+    df = pd.read_csv("./ExtractedFeatures_screening.csv")
     y_true = df["Binding"]
     to_drop = [i for i in df.columns if "Aptamer" in i or "Target" in i or "Entry" in i or "Binding" in i or i == "SS" or "PDB_ID" in i]
     to_drop = to_drop + ["Binding"]
     X = df.drop(to_drop, axis=1)
     y_pred = m3.predict(X)
-    print(f"Follows the Metrics Report:\n{print(classification_report(np.array(y_true), y_pred))}")
+    print(f"Aptamers expected to interact with protein target:")
+    binding_aptamers = {"Aptamer Sequence":[]}
+    for i, j in zip(df["Aptamer Sequence"], y_pred):
+        if j == 1:
+            print(f"Aptamer: {i} predicted to [green]bind[/green]")
+            binding_aptamers["Aptamer Sequence"].append(i)
+    out = pd.DataFrame().from_dict(binding_aptamers)
+    out.to_csv("PredictedAptamers.csv", index=False)
+    print("Successfully saved predicted aptamers to PredictedAptamers.csv")
+        
 
