@@ -14,7 +14,6 @@ from rich import print
 from rust_sasa_python import calculate_sasa_at_residue_level
 import subprocess
 import xgboost
-from sklearn.metrics import accuracy_score, classification_report, r2_score
 import numpy as np
 import sys
 
