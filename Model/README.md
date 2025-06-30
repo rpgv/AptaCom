@@ -2,34 +2,10 @@
 
 This repository contains a Python script for classifying Aptamer-Protein interactions using XGBoost.
 This model serves mostly as a preliminary <b>screening tool</b>. The expected usage is to input a CSV file describing 
-various aptamer towards one single protein target. Samples are available in the folder 'Sample_runs', feel free to use them as 
+various aptamer towards one single protein target. To screen various aptamers for various targets will require changes to code.
+Input file samples are available in the folder 'Samples', feel free to use them as 
 reference or even modify them to suit your run. 
 Run on python3.8 or higher
-
-## Requirements
-
-To run this script, you'll need the following Python packages:
-
-1.  **XGBoost:** 
-    *   Core XGBoost implementation for classification;
-    *   Installation: `pip install xgboost`
-
-2.  **pandas:**
-    *   To load input (CSV shaped file);
-    *   Installation: `pip install pandas`
-
-3.  **pyBioMed:**
-    *   Extracts features from sequences used in prediction;
-    *   Installation: `pip install pyBioMed`
-
-4.  **rust-sasa-python:**
-    *   Extracts features from protein pdb files used in prediction;
-    *   Installation: `pip install rust-sasa-python`
-
-5.  **MXfold2:**
-    *   Extracts Aptamer secondary structure;
-    *   Installation: <href>https://github.com/mxfold/mxfold2</href>
-    *   In case of unsucessful installation - alternative methods for secondary structure prediction can be used - it only requires a colum 'SS' on the input CSV file;
 
 ## Installation Instructions
 
@@ -66,6 +42,32 @@ To run this script, you'll need the following Python packages:
 
 </body>
 </html>
+
+## Requirements
+
+To run this script, you'll need the following Python packages:
+
+1.  **XGBoost:** 
+    *   Core XGBoost implementation for classification;
+    *   Installation: `pip install xgboost`
+
+2.  **pandas:**
+    *   To load input (CSV shaped file);
+    *   Installation: `pip install pandas`
+
+3.  **pyBioMed:**
+    *   Extracts features from sequences used in prediction;
+    *   Installation: `pip install pyBioMed`
+
+4.  **rust-sasa-python:**
+    *   Extracts features from protein pdb files used in prediction;
+    *   Installation: `pip install rust-sasa-python`
+
+5.  **MXfold2:**
+    *   Extracts Aptamer secondary structure;
+    *   Installation: <href>https://github.com/mxfold/mxfold2</href>
+    *   In case of unsucessful installation - alternative methods for secondary structure prediction can be used - it only requires a colum 'SS' on the input CSV file;
+
 
 ## Usage
 
