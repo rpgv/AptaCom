@@ -36,9 +36,7 @@ In this repo, we compile the tools and data utilized during the development of t
 </table>
 
 * Model/Model_Predict.json describes a XGBoost model built for predicting aptamer target interactions (Binding vs No Binding)
-   * This model is implemented as such:
-
-     ```repo not complete feature model still not up```
+   * For more details: <href>https://github.com/rpgv/AptaCom/tree/main/Model</href>
      
 
   
