@@ -40,6 +40,25 @@ def GetAll_Pair(dna,prot):
     resprot = Pyprotein.PyProtein(prot).GetALL()
     return resdna, resprot
 
+def GetAll_Pair_protein(prot):
+    resprot = Pyprotein.PyProtein(prot).GetALL()
+    return resprot
+
+def GetAll_Pair_dna(dna):
+    resdna = {}
+    resdna.update(GetDAC(dna))
+    resdna.update(GetDCC(dna))
+    resdna.update(GetDACC(dna))
+    resdna.update(GetTAC(dna))
+    resdna.update(GetTACC(dna))
+    resdna.update(GetTCC(dna))
+    resdna.update(GetKmer(dna))
+    resdna.update(GetPseDNC(dna))
+    resdna.update(GetPseKNC(dna))
+    resdna.update(GetSCPseDNC(dna))
+    resdna.update(GetSCPseTNC(dna))
+    return resdna
+
 
 def empty_dicts():
     # The resulting dicts from the GetAll_Pair function doesn't match that of a DFrame;
@@ -65,13 +84,14 @@ def get_features(df):
     prot_frame["Target Sequence"] = []
     dna_frame["PDB_ID"] = []
     prot_frame["PDB_ID"] = []
+    trgt = str(df["Target Sequence"].iloc[0]) # Assuming same target for entire pipeline
+    pprot = GetAll_Pair_protein(trgt)
     for n in range(len(df)):
         print(f"Iteration: {n}/{len(df)}")
         print(str(df["Aptamer Sequence"].iloc[n]))
         print(str(df["Target Sequence"].iloc[n]))
         apt = str(df["Aptamer Sequence"].iloc[n]).replace("U", "T").replace("-", "").replace(".", "").replace("3", "")
         og = str(df["Aptamer Sequence"].iloc[n])
-        trgt = str(df["Target Sequence"].iloc[n])
         pdb = str(df["PDB_ID"].iloc[n])
         dna_frame["Aptamer Sequence"].append(apt)
         prot_frame["Aptamer Sequence"].append(og)
@@ -79,7 +99,7 @@ def get_features(df):
         prot_frame["Target Sequence"].append(trgt)
         dna_frame["PDB_ID"].append(pdb)
         prot_frame["PDB_ID"].append(pdb)
-        pdna, pprot = GetAll_Pair(apt, trgt)
+        pdna = GetAll_Pair_dna(apt)
         for k, v in pdna.items():
             dna_frame[f"apt_{k}"].append(v)
         for k, v in pprot.items():
@@ -112,10 +132,10 @@ def build_df(dataframe:pd.DataFrame):#This function receives a dataframe contain
     # aptamer_id = df["Entry_ID"]
     l = len(tid)
     c = 0
-    for i in tid[1:]:
-        print(f"Calculating SASA for {i}.pdb | Index: {c} of {l}")
+    sasa_per_restype =residue_exposure_map(f"./PDBs/{tid[0]}_clean.pdb") # Calculating for one protein file - modify here path
+    for _ in range(len(dataframe)):#                                                      # or filename alterations
+        print(f"Calculating SASA for {tid[0]}.pdb | Index: {c} of {l}")
         c += 1
-        sasa_per_restype =residue_exposure_map(f"./PDBs/{i}_structure_clean.pdb") # Here pdb sub-dir path can be modified
         for j in list(sasa_per_restype.keys()):
             sasa_df[j].append(sasa_per_restype[j])
     return pd.DataFrame().from_dict(sasa_df)
@@ -191,17 +211,19 @@ if __name__ == "__main__":
     print("[blue]Starting Feature Extraction Pipeline[/blue]")
     try:
         df_file = sys.argv[1] # CSV file with Aptamer and Protein Sequence and Protein PDB ID
+    ############## Loading CSV #################################
+        print("Loading CSV input file....")
+        data = pd.read_csv(df_file)
+        print("File loaded successfully!")
+        print(f"File - {df_file} - of shape: {data.shape}")
+        print("\n")
     except: 
         print("[bold red]Missing arguments[/bold red]")
         print("[green]Correct usage: ExtractFeatures.py <CSV.file>[/green]\nCSV.file describes:\n-Aptamer sequence\n-Protein sequence\n-Protein: PDB_ID")
-        print("Script assumes protein structures are in sub-directory ./PDBs\n")
+        print("Script assumes protein structures are in path ./PDBs/PDB_ID_clean.pdb")
+        print("If mxfold2 installation was unsuccessfull, add a column 'SS' to the input file with previously calculated aptamer secondary structure ")
+        print("Note: Input file can be prepared in excel and exported as CSV using ',' as delimiter")
 
-    ############## Loading CSV #################################
-    print("Loading CSV file...")
-    data = pd.read_csv(df_file)
-    print("File loaded successfully!")
-    print(f"File - {df_file} - of shape: {data.shape}")
-    print("\n")
     ############### Starting PyBioMed pipeline ##################
     print("Starting PyBioMed Token and Physiochemical features")
     data["Target Sequence"] = data["Target Sequence"].apply(lambda x: x[2:-2].split(',')) # Some sequences come with formatting issues i.e: ['MWRTLP']
@@ -263,11 +285,6 @@ if __name__ == "__main__":
             print("[red]Could not complete feature extraction due to missing Secondary Strucutre column and missing mxfold2 installation[/red]")
             quit()
 
-    ############## Concatenating Datasets #######################
-
-    
-
-    #############################################################
 
 
     ############# Starting Model Prediction #####################
