@@ -250,8 +250,9 @@ if __name__ == "__main__":
         ########## Finished Aptamer SS prediction ###################
         print("[green]Process finished saving file to ExtractedFeatures.csv ...[/green]")
         merged_ss.to_csv("ExtractedFeatures_screening.csv", index=False)
-    except:
+    except Exception as e:
         print("[red]\nError in Aptamer Secondary Structure Prediction\nMight be due to problems in mxfold2 installation[/red]")
+        print(e)
         if 'SS' in list(data.columns):
             print("Falling back on SS structures present in CSV input file")
             ss_segments = analyse_ss(ss_df)
