@@ -1,6 +1,6 @@
 # The following DIR contains:
 * 'FeatureExtract.py' - Creation of training dataset;
-  * Process to extract features from DNA and amino acid sequences;
+  * Process to extract features from DNA and amino acid sequences using PyBioMed - available on (https://github.com/gadsbyfly/PyBioMed);
   * It implements the Rust-SASA tool - available on ([https://github.com/i2bc/SURFMAP?tab=readme-ov-file#Table-of-contents](https://github.com/maxall41/rust-sasa-python)) to
 extract SASA information from proteins;
   * It implements mxfold2 for Aptamer Secondary Structure prediction - available for installation on (https://github.com/mxfold/mxfold2)
