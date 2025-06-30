@@ -37,8 +37,8 @@ To run this script, you'll need the following Python packages:
 
 ## Installation Instructions
 
-1.  Clone this repository: `git clone [repository URL]`
-2.  Navigate to the repository directory: `cd [repository directory]`
+1.  Clone this repository: `git clone https://github.com/rpgv/AptaCom.git`
+2.  Navigate to the repository directory: `cd AptaCom/Model`
 3.  Install the required packages using pip: `pip install -r requirements.txt` or `uv add -r requirements.txt`
     *   Alternatively, install packages individually using `pip install xgboost pandas pyBioMed rust-sasa-python` or `uv add xgboost pandas pyBioMed rust-sasa-python` 
     *   Note: Install rich `pip install rich` or `uv add rich` for colorful outputs;
