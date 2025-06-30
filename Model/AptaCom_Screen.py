@@ -276,7 +276,7 @@ if __name__ == "__main__":
         print(e)
         if 'SS' in list(data.columns):
             print("Falling back on SS structures present in CSV input file")
-            merged_sasa["SS"] = df_file["SS"]
+            merged_sasa["SS"] = data["SS"]
             ss_segments = analyse_ss(merged_sasa)
             print("Segmented SS counts shape: {ss_segments.shape}")
             merged_ss = pd.concat([ss_segments, merged_sasa], axis=1)
