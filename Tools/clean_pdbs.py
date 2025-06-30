@@ -1,6 +1,6 @@
 import os 
 
-path = './PDBs'
+path = '../Model/PDBs'
 
 files = list(os.listdir(path))
 
