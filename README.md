@@ -1,6 +1,6 @@
 # In silico aptamer development for potential marine bioremediation
 
-``` Aptamers are single stranded nucleotides, with applications comparable to those of antibodies - targeted drug delivery, bio-sensors etc - while being more chemically malleable.```
+Aptamers are single stranded nucleotides, with applications comparable to those of antibodies - targeted drug delivery, bio-sensors etc - while being more chemically malleable.
 
 In this repo, we compile the tools and data utilized during the development of the work: 'Designing in silico aptamers for potential marine bioremediation'. 
 
@@ -35,7 +35,7 @@ In this repo, we compile the tools and data utilized during the development of t
   </tr>
 </table>
 
-* Model/Model_Predict.json describes a XGBoost model built for predicting aptamer target interactions (Binding vs No Binding)
+* /Model describes a XGBoost model built for predicting aptamer target interactions (Binding vs No Binding)
    * For more details: <href>https://github.com/rpgv/AptaCom/tree/main/Model</href>
      
 
