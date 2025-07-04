@@ -83,4 +83,6 @@ To run this script, you'll need the following Python packages:
     *    input_data.csv contains four columns: 'Aptamer Sequence','Target Sequence','PDB_ID','SS'
     *    Note: PDB_ID: describes the name of PDB files with <b>protein atoms only</b>. These files should be in the ~/AptaCom/Model/PDBs directory;
     *    Note: SS: describes the secondary structure of <b>each aptamer</b> to be classified;
+  
+(to prepare protein for screening - run ```python ./Tools/clean_pdbs.py```)
 
