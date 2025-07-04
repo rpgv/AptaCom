@@ -9,14 +9,17 @@ from PyBioMed.PyDNA.PyDNAnac import *
 from PyBioMed.PyDNA.PyDNApsenac import *
 from PyBioMed.PyDNA.PyDNAutil import *
 from PyBioMed import Pyprotein
-import pandas as pd 
-from rich import print 
+import pandas as pd  
 from rust_sasa_python import calculate_sasa_at_residue_level
 import subprocess
 import xgboost
 import numpy as np
 import sys
 
+try: 
+    from rich import print
+except: 
+    print("Module 'rich' not installed - boring outputs it is...")
 
 #
 # First - Pipeline from ExtractFeature.py - To retrieve input features
