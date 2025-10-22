@@ -122,8 +122,8 @@ def residue_exposure_map(pdb_file_path): #calculates sasa for each restype in pr
     print(sasa)
     sasa_per_restype = {f"sasa_{i}":0 for i in aa_list} # replace the list of nn by list of aa
     for i in sasa:
-        restype = str(f"sasa_{i[0].split('_')[1]}")
-        sasa_per_restype[restype]+=float(i[1])
+        restype = str(f"sasa_{i.residue_name}")
+        sasa_per_restype[restype]+=float(i.sasa)
     return sasa_per_restype
 
 def build_df(dataframe:pd.DataFrame):#This function receives a dataframe containing a aptamer/target features and identification keys relating to pdb files;
