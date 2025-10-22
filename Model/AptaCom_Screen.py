@@ -10,7 +10,7 @@ from PyBioMed.PyDNA.PyDNApsenac import *
 from PyBioMed.PyDNA.PyDNAutil import *
 from PyBioMed import Pyprotein
 import pandas as pd  
-from rust_sasa_python import calculate_sasa_at_residue_level
+import rust_sasa_python as rp
 import subprocess
 import xgboost
 import numpy as np
@@ -118,7 +118,7 @@ def get_features(df):
 ############ Protein SASA Extraction ############################
 aa_list = ["GLY","ALA","VAL","LEU","ILE","THR","SER","MET","CYS","PRO","PHE","TYR","TRP","HIS","LYS","ARG","ASP","GLU","ASN","GLN"]
 def residue_exposure_map(pdb_file_path): #calculates sasa for each restype in protein; 
-    sasa = calculate_sasa_at_residue_level(pdb_file_path) 
+    sasa = rp.calculate_residue_sasa(pdb_file_path) 
     print(sasa)
     sasa_per_restype = {f"sasa_{i}":0 for i in aa_list} # replace the list of nn by list of aa
     for i in sasa:
