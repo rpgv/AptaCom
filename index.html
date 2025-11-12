@@ -2,36 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AptaCom Binds Aptamers for Information Bridge</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding-top: 50px;
+            padding: 5px;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
-        h1 {
+
+        body {
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color:#99ecfa;
+            border-radius: 25px;
+            opacity: 0.9;
+        }
+            
+        h1, h3, h4, h5, h6 {
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .text-primary {
+            color: #0d0d0d !important;
+        }
+        .text-secondary {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+
+        .database-button {
+            background-color: rgb(238, 166, 166);
+            border: 1px solid black;
+            color: rgb(0, 0, 0);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+
+        .section-title {
+            color: #0d0d0d;
+            font-weight: bold;
+            padding-left: 20%;
+            margin-bottom: 30px;
+        }
+
+        .paragraph {
+            color: #2c3e50 !important;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>AptaCom - Bridging Aptamer Information</h1>
-        <p>More than 3500 aptamer entries</p>
+    <header class="container">
+        <h1 class="text-primary">AptaCom</h1>
+        <h3>Bridging Aptamer Information</h3>
+        <p class="text-secondary">More than 3500 aptamers </p>
     </header>
+    <br>
+    <section class="container">
+        <h2 class="text-primary">What are aptamers?</h2>
 
-    <section>
-        <h2>What are aptamers?</h2>
-        <p>Aptamers are small single stranded nucleotides capable of binding with high affinity and specificity to a wide range of targets (from proteins to small molecules)</p>
-    </section>
+        <div class="paragraph">
+            <p>Aptamers are single-stranded nucleotides that can bind with high specificity to their target sequences.</p>
+        </div>
+    
+        <h2 class="text-primary">What is AptaCom</h2>
+        <p class="paragraph">AptaCom is a comprehensive collection of more than 3500 aptamers sourced from various sources (UTexas DB, AptaDB, etc).</p>
+        <p>AptaCom is also a XGBoost model aimed at predicting aptamer-protein interactions.</p>
 
-    <section>
-        <h2>What is AptaCom</h2>
-        <p>AptaCom is a dataset that compiles more than 3500 aptamers gathered from different sources (i.e. UTexas DB, AptaDB, Aptagend...)</p>
-        <p>AptaCom is also a XGBoost model trained on the previously described dataset, with the goal of predicting aptamer-protein interactions</p>
+        <h2 class="text-primary">Where to Access</h2>
+        <button class="database-button" href="https://rpgv.github.io/AptaCom/AptaCom_DB">Click for AptaCom DB</button>
     </section>
 
     <script type="text/javascript">
