@@ -6,14 +6,10 @@
         /* Style for the main table element */
 
 table-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color:#99ecfa;
-            border-radius: 25px;
-            opacity: 0.9;
-
-
+    max-width: 800px;
+    background-color:#f88484;
 }
+
 table {
     width: 80%; /* Takes up 80% of the container width */
     margin: 20px auto; /* Centers the table and adds vertical space */
@@ -25,11 +21,10 @@ table {
 /* Style for the table header cells */
 th {
     background-color: #02d4f9; /* A nice green background */
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 2px solid #3e8e41;
-    text-transform: uppercase; /* Makes headers stand out */
+    text-transform: uppercase;
 }
 
 /* Style for all table data cells */
@@ -53,7 +48,7 @@ tbody tr:hover {
 <body>
 
     <h1>AptaCom DB</h1>
-    <div id="table-container"></div>
+    <div class="table-container" id="table-container">
 
     <script>
         const csvFilePath = 'Database/AptaCom02.csv'; // Path to your CSV file
@@ -88,6 +83,7 @@ tbody tr:hover {
             })
             .catch(error => console.error('Error fetching or parsing CSV:', error));
     </script>
+    </div>
 
 </body>
 </html>
