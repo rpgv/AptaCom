@@ -1,7 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CSV to Table</title>
+    <title>AptaCom DataBase</title>
+    <style>
+        /* Style for the main table element */
+table {
+    width: 80%; /* Takes up 80% of the container width */
+    margin: 20px auto; /* Centers the table and adds vertical space */
+    border-collapse: collapse; /* Removes the double border between cells */
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Style for the table header cells */
+th {
+    background-color: #4CAF50; /* A nice green background */
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #3e8e41;
+    text-transform: uppercase; /* Makes headers stand out */
+}
+
+/* Style for all table data cells */
+td {
+    padding: 10px 15px;
+    border: 1px solid #dddddd; /* Light gray border for all cells */
+}
+
+/* Zebra Striping (alternating row colors) */
+tbody tr:nth-child(even) {
+    background-color: #f3f3f3; /* Light gray for even rows */
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+    background-color: #e9e9e9; /* Slightly darker gray on hover */
+    cursor: pointer;
+}
+    </style>
 </head>
 <body>
 
