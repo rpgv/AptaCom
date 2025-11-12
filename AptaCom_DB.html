@@ -5,9 +5,11 @@
     <style>
         /* Style for the main table element */
 
-table-container {
+.table-mods {
     max-width: 800px;
-    background-color:#f88484;
+    overflow-x: auto;
+    margin: 20px auto;
+    padding: 0;
 }
 
 table {
@@ -15,7 +17,8 @@ table {
     margin: 20px auto; /* Centers the table and adds vertical space */
     border-collapse: collapse; /* Removes the double border between cells */
     font-family: Arial, sans-serif;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+ 
 }
 
 /* Style for the table header cells */
@@ -47,8 +50,8 @@ tbody tr:hover {
 </head>
 <body>
 
-    <h1>AptaCom DB</h1>
-    <div class="table-container" id="table-container">
+    <h1 style="background-color: #f88484; border-radius: 20px; padding: 5px;text-align: center;">AptaCom DB</h1>
+    <div class="table-mods" id="table-container">
 
     <script>
         const csvFilePath = 'Database/AptaCom02.csv'; // Path to your CSV file
