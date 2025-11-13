@@ -39,7 +39,7 @@
             <br>
            <h1 class="aptacom-title">AptaCom DB</h1>
            <br>
-           <a class="Home" href="https://rpgv.github.io/AptaCom/">Back</a>
+           <a class="back" href="https://rpgv.github.io/AptaCom/">Home</a>
         </div>
         <br>
             <div id="table-container"></div>
@@ -77,12 +77,9 @@
                 delimiter: '"'
             },
             datatables_options: {
-                paging: true
-            },
-            custom_formatting: [
-                [6, format_link]
-            ]
-        });
+               datatables_options: {"paging": true},
+    custom_formatting: [[6, format_link]] //execute the function on the 4th column of every row
+  });
     </script>
 </body>
 
