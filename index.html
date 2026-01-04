@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>AptaCom</title>
     <link rel="icon" type="image/x-icon" href="/assets/aptacom_icon.png">
@@ -22,79 +23,245 @@
             opacity: 0.8;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color:#99ecfa;
-            border-radius: 25px;
-        }
-            
-        h1, h3, h4, h5, h6 {
-            color: #2c3e50;
+        header {
+            background-color: rgba(153, 236, 250, 0.95);
+            padding: 10px;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .text-primary {
-            color: #0d0d0d !important;
-        }
-        .text-secondary {
+        h1 {
             color: #2c3e50;
-            text-align: center;
+            font-size: 1.5em;
+            margin: 0;
+            padding: 10px;
         }
 
+        .grid-container {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            gap: 20px;
+            margin: 20px 0;
+        }
 
-        .database-button {
+        .description-column {
+            background-color: rgba(153, 236, 250, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .description-column h2 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #2c3e50;
+            padding-bottom: 5px;
+        }
+
+        .description-column p {
+            color: #2c3e50;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+
+        .jsmol-column {
+            background-color: rgba(153, 236, 250, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
+            position: relative;
+            z-index: -1;
+            isolation: isolate;
+        }
+
+        #jsmolApplet {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #2c3e50;
+            border-radius: 10px;
+            background-color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            position: fixed;
+            top: 40px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .hamburger-icon {
+            width: 40px;
+            height: 40px;
             background-color: rgb(238, 166, 166);
+            border: 2px solid black;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon:hover {
+            background-color: rgb(209, 45, 45);
+        }
+
+        .hamburger-icon span {
+            width: 25px;
+            height: 3px;
+            background-color: black;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon.active span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+
+
+        .hamburger-icon.active span:nth-child(2) {
+            transform: rotate(-45deg);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 250px;
+            height: 100vh;
+            background-color: rgba(153, 236, 250, 0.98);
+            border-left: 3px solid black;
+            transition: right 0.3s ease;
+            z-index: 9999;
+            padding: 80px 20px 20px 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-overlay.active {
+            right: 0;
+        }
+
+        .menu-overlay a {
+            display: block;
+            background-color: rgb(226, 174, 174);
             border: 1px solid black;
             color: rgb(0, 0, 0);
-            padding: 15px 32px;
+            padding: 15px 20px;
             text-align: center;
             text-decoration: none;
-            display: inline-block;
-            font-size: 12px;
-            cursor: pointer;
+            font-size: 14px;
             border-radius: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
 
-
-        .section-title {
-            color: #0d0d0d;
-            font-weight: bold;
-            padding-left: 20%;
-            margin-bottom: 30px;
-        }
-
-        .paragraph {
-            color: #2c3e50 !important;
+        .menu-overlay a:hover {
+            background-color: rgb(255, 180, 180);
+            transform: translateX(-5px);
         }
     </style>
 </head>
+
 <body>
-    <header class="container">
-        <h1 class="text-primary">AptaCom</h1>
-        <h3>Bridging Aptamer Information</h3>
-        <p class="text-secondary">Webpage currently under construction</p>
-    </header>
-    <br>
-    <section class="container">
-        <h2 class="text-primary">What are aptamers?</h2>
-
-        <div class="paragraph">
-            <p>Aptamers are single-stranded nucleotides that can bind with high specificity to their target sequences.</p>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
         </div>
-    
-        <h2 class="text-primary">What is AptaCom</h2>
-        <p class="paragraph">AptaCom is a comprehensive collection of more than 3500 aptamers sourced from various sources (UTexas DB, AptaDB, etc).</p>
-        <p>AptaCom is also a XGBoost model aimed at predicting aptamer-protein interactions.</p>
+    </div>
 
-        <h2 class="text-primary">Where to Access</h2>
-        <a class="database-button" href="https://rpgv.github.io/AptaCom/aptacom_db_table.html">Click for AptaCom DB</a>
-    </section>
+    <div class="menu-overlay" id="menuOverlay">
+        <br>
+        <a href="index.html">Home</a>
+        <a href="aptacom_db_table.html">Database</a>
+        <a href="stats.html">Stats</a>
+        <a href="https://github.com/rpgv/AptaCom" target="_blank">Github</a>
+        <a href="https://rpgv.github.io/AptaCom/about.html" target="_blank">About me</a>
+    </div>
+
+    <header>
+        <h1>AptaCom - Bridging Aptamer Information</h1>
+    </header>
+
+    <div class="grid-container">
+        <!-- Left Column: Description (20%) -->
+        <div class="description-column">
+            <h2>About Aptamers</h2>
+            <p>Uncovered in 1990, <strong>aptamers are single-stranded nucleic acid molecules (DNA or RNA) that can bind
+                    with high specificity and
+                    affinity</strong> to their target molecules.</p>
+            <p> Aptamers can be applied as a biosensing technology, target drug delivery or as a research tool. </p>
+
+        </div>
+
+        <!-- Right Column: JSMol Viewer (80%) -->
+        <div class="jsmol-column">
+            <div id="jsmolApplet"></div>
+        </div>
+    </div>
+
+    <!-- jQuery (required for JSmol) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JSmol Library -->
+    <script type="text/javascript" src="https://chemapps.stolaf.edu/jmol/jsmol/JSmol.min.js"></script>
 
     <script type="text/javascript">
-        // Basic HTML5 styling included
+        function toggleMenu() {
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerIcon = document.querySelector('.hamburger-icon');
+
+            menuOverlay.classList.toggle('active');
+            hamburgerIcon.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+            if (!hamburgerMenu.contains(event.target) && !menuOverlay.contains(event.target)) {
+                menuOverlay.classList.remove('active');
+                document.querySelector('.hamburger-icon').classList.remove('active');
+            }
+        });
+
+        // JSmol Initialization
+        var Info = {
+            width: "100%",
+            height: "90%",
+            debug: false,
+            color: "#000000",
+            use: "HTML5",
+            j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s",
+            serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+            script: "load https://files.rcsb.org/download/2M53.pdb; cartoon; color structure; spin on;",
+            disableJ2SLoadMonitor: true,
+            disableInitialConsole: true,
+        };
+
+        // Initialize JSmol when page loads
+        $(document).ready(function () {
+            $("#jsmolApplet").html(Jmol.getAppletHtml("jsmolApplet", Info));
+        });
     </script>
 </body>
+
 </html>

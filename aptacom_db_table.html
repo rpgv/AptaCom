@@ -13,45 +13,138 @@
         .head_cont {
             padding: 10px;
         }
-        .aptacom-title{
-            background-color: #f88484; 
-            border-radius: 20px;
-            padding: 5px;
-            text-align: center;}
-        .back{
-            background-color: aqua; 
-            padding: 10px; 
-            border: solid black 1px; 
-            border-radius: 15px;
 
+        .aptacom-title {
+            background-color: #90e6e9;
+            border-radius: 18px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            position: fixed;
+            top: 39px;
+            right: 25px;
+            z-index: 10000;
+        }
+
+        .hamburger-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgb(238, 166, 166);
+            border: 2px solid black;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon:hover {
+            background-color: rgb(209, 45, 45);
+        }
+
+        .hamburger-icon span {
+            width: 25px;
+            height: 3px;
+            background-color: black;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon.active span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger-icon.active span:nth-child(2) {
+            transform: rotate(-45deg);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 250px;
+            height: 100vh;
+            background-color: rgba(153, 236, 250, 0.98);
+            border-left: 3px solid black;
+            transition: right 0.3s ease;
+            z-index: 9999;
+            padding: 80px 20px 20px 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-overlay.active {
+            right: 0;
+        }
+
+        .menu-overlay a {
+            display: block;
+            background-color: rgb(226, 174, 174);
+            border: 1px solid black;
+            color: rgb(0, 0, 0);
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay a:hover {
+            background-color: rgb(255, 180, 180);
+            transform: translateX(-5px);
         }
     </style>
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 </head>
 
 <body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay">
+        <br>
+        <a href="index.html">Home</a>
+        <a href="aptacom_db_table.html">Database</a>
+        <a href="stats.html">Stats</a>
+        <a href="https://github.com/rpgv/AptaCom" target="_blank">Github</a>
+        <a href="https://rpgv.github.io/AptaCom/about.html" target="_blank">About me</a>
+    </div>
+
     <div class="container-fluid">
         <main class="row">
             <div class="col">
-            <div class="head_cont">
-            <br>
-           <h1 class="aptacom-title">AptaCom DB</h1>
-           <br>
-           <a class="back" href="https://rpgv.github.io/AptaCom/">Home</a>
-        </div>
-        <br>
-            <div id="table-container"></div>
+                <div class="head_cont">
+                    <br>
+                    <h1 class="aptacom-title">AptaCom DB</h1>
+                </div>
+                <br>
+                <div id="table-container"></div>
             </div>
         </main>
         <footer class="row">
             <div class="col">
                 <hr>
-                <p class="text-right"><a href="https://github.com/derekeder/csv-to-html-table">Powered by: CSV to HTML Table</a> by
+                <p class="text-right"><a href="https://github.com/derekeder/csv-to-html-table">Powered by: CSV to HTML
+                        Table</a> by
                     <a href="http://derekeder.com">Derek
-                        Eder</a></p>
+                        Eder</a>
+                </p>
             </div>
         </footer>
     </div>
@@ -63,6 +156,25 @@
     <script src="js/csv_to_html_table.js"></script>
 
     <script>
+        function toggleMenu() {
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerIcon = document.querySelector('.hamburger-icon');
+
+            menuOverlay.classList.toggle('active');
+            hamburgerIcon.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+            if (!hamburgerMenu.contains(event.target) && !menuOverlay.contains(event.target)) {
+                menuOverlay.classList.remove('active');
+                document.querySelector('.hamburger-icon').classList.remove('active');
+            }
+        });
+
         function format_link(link) {
             if (link)
                 return "<a href='" + link + "' target='_blank'>" + link + "</a>";
@@ -71,12 +183,12 @@
 
         CsvToHtmlTable.init({
             csv_path: "Database/AptaCom03.csv",
-            element: 'table-container', 
-    allow_download: true,
-    csv_options: {separator: ',', delimiter: '"'},
-    datatables_options: {"paging": true},
-    custom_formatting: [[6, format_link]] //execute the function on the 4th column of every row
-  });
+            element: 'table-container',
+            allow_download: true,
+            csv_options: { separator: ',', delimiter: '"' },
+            datatables_options: { "paging": true },
+            custom_formatting: [[6, format_link]] //execute the function on the 4th column of every row
+        });
     </script>
 </body>
 

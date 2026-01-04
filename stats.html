@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>AptaCom - Statistics</title>
+    <link rel="icon" type="image/x-icon" href="/assets/aptacom_icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 5px;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+            background-image: url('assets/aptamer.png');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* Overlay to ensure readability over background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.6);
+            z-index: -1;
+        }
+
+        header {
+            background-color: rgba(153, 236, 250, 0.95);
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background-color: rgba(153, 236, 250, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h2 {
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(44, 62, 80, 0.2);
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .summary-box {
+            background-color: rgba(238, 166, 166, 0.9);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 2px solid #000;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-value {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+            color: #2c3e50;
+        }
+
+        .summary-label {
+            font-size: 0.9em;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            position: fixed;
+            top: 40px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .hamburger-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgb(238, 166, 166);
+            border: 2px solid black;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 3px;
+            padding: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon:hover {
+            background-color: rgb(209, 45, 45);
+        }
+
+        .hamburger-icon span {
+            width: 25px;
+            height: 3px;
+            background-color: black;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-icon.active span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger-icon.active span:nth-child(2) {
+            transform: rotate(-45deg);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 250px;
+            height: 100vh;
+            background-color: rgba(153, 236, 250, 0.98);
+            border-left: 3px solid black;
+            transition: right 0.3s ease;
+            z-index: 9999;
+            padding: 80px 20px 20px 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-overlay.active {
+            right: 0;
+        }
+
+        .menu-overlay a {
+            display: block;
+            background-color: rgb(226, 174, 174);
+            border: 1px solid black;
+            color: rgb(0, 0, 0);
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay a:hover {
+            background-color: rgb(255, 180, 180);
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 600px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay">
+        <br>
+        <a href="index.html">Home</a>
+        <a href="aptacom_db_table.html">Database</a>
+        <a href="stats.html">Stats</a>
+        <a href="https://github.com/rpgv/AptaCom" target="_blank">Github</a>
+        <a href="https://rpgv.github.io/AptaCom/about.html" target="_blank">About me</a>
+    </div>
+
+    <header>
+        <h1>AptaCom - Database Statistics</h1>
+    </header>
+
+    <div class="summary-stats">
+        <div class="summary-box">
+            <span class="summary-value" id="totalEntries">4005</span>
+            <span class="summary-label">Total Entries</span>
+        </div>
+        <div class="summary-box">
+            <span class="summary-value" id="uniqueTargets">1872</span>
+            <span class="summary-label">Unique Targets</span>
+        </div>
+        <div class="summary-box">
+            <span class="summary-value" id="uniqueTargets">3175</span>
+            <span class="summary-label">Unique Aptamers</span>
+        </div>
+        <div class="summary-box">
+            <span class="summary-value" id="topAptamer">DNA</span>
+            <span class="summary-label">Primary Aptamer Type</span>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <!-- Aptamer Type Chart -->
+        <div class="stat-card">
+            <h2>Aptamer Type Distribution</h2>
+            <canvas id="typeChart"></canvas>
+        </div>
+
+        <!-- Target Category Chart -->
+        <div class="stat-card">
+            <h2>Target Categories</h2>
+            <canvas id="targetChart"></canvas>
+        </div>
+    </div>
+    <br>
+    <div class="stat-card">
+        <h2>The Data Problem</h2>
+        <p>There have been many attempts at creating an aptamer database, however, most of them failed due to
+            a <b>lack of standardization in the field.</b> This created heavy <b>stratification</b> of the information,
+            which is dispersed throughout different databases.</p>
+        <p>Many <b>articles</b>, and subsequently databases, describe aptamer targets only superficially, which
+            <b>impacts</b> reproducibility of the experiments.
+        </p>
+
+    </div>
+    <br>
+    <div class="stat-card">
+        <h2>Missing Data</h2>
+        <canvas id="missingDataChart"></canvas>
+    </div>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+        function toggleMenu() {
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerIcon = document.querySelector('.hamburger-icon');
+
+            menuOverlay.classList.toggle('active');
+            hamburgerIcon.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const menuOverlay = document.getElementById('menuOverlay');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+            if (!hamburgerMenu.contains(event.target) && !menuOverlay.contains(event.target)) {
+                menuOverlay.classList.remove('active');
+                document.querySelector('.hamburger-icon').classList.remove('active');
+            }
+        });
+
+        // Initialize Charts
+        $(document).ready(function () {
+            // Aptamer Type Distribution
+            const typeCtx = document.getElementById('typeChart').getContext('2d');
+            new Chart(typeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['DNA', 'RNA', 'Other'],
+                    datasets: [{
+                        data: [2395, 1152, 13],
+                        backgroundColor: [
+                            '#2c3e50',
+                            '#eea6a6',
+                            '#99ecfa'
+                        ],
+                        borderColor: 'rgba(255, 255, 255, 0.8)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#2c3e50',
+                                font: { weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Target Categories
+            const targetCtx = document.getElementById('targetChart').getContext('2d');
+            new Chart(targetCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Protein', 'Cells', 'Small Molecule', 'Other'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [520, 180, 140, 142],
+                        backgroundColor: '#eea6a6',
+                        borderColor: '#2c3e50',
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Missing Data Chart
+            const missingCtx = document.getElementById('missingDataChart').getContext('2d');
+            new Chart(missingCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Missing Targets ID', 'Missing Affinities', 'Missing Target Chemistry'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [2639, 768, 1866],
+                        backgroundColor: [
+                            '#eea6a6',
+                            '#2c3e50',
+                            '#99ecfa'
+                        ],
+                        borderColor: '#2c3e50',
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y', // Horizontal bar chart looks better for these labels
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        y: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const total = 4005;
+                                    const percentage = ((context.raw / total) * 100).toFixed(1);
+                                    return `${context.raw} (${percentage}% of database)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
