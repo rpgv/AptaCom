@@ -21,6 +21,15 @@
             text-align: center;
         }
 
+        body {
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+            background-color: #000000;
+        }
+
         /* Hamburger Menu Styles */
         .hamburger-menu {
             position: fixed;
@@ -50,19 +59,19 @@
         }
 
         .hamburger-icon span {
-            width: 25px;
-            height: 3px;
+            width: 19px;
+            height: 6px;
             background-color: black;
             border-radius: 2px;
             transition: all 0.3s ease;
         }
 
         .hamburger-icon.active span:nth-child(1) {
-            transform: rotate(45deg);
+            transform: rotate(45deg) translateY(-1px);
         }
 
         .hamburger-icon.active span:nth-child(2) {
-            transform: rotate(-45deg);
+            transform: rotate(-45deg) translateY(1px);
         }
 
         .menu-overlay {

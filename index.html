@@ -19,8 +19,7 @@
             padding: 20px;
             margin-top: 20px;
             position: relative;
-            background-image: url('assets/aptamer.png');
-            opacity: 0.8;
+            background-color: #000000;
         }
 
         header {
@@ -75,7 +74,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             min-height: 600px;
             position: relative;
-            z-index: -1;
             isolation: isolate;
         }
 
@@ -123,20 +121,21 @@
 
         .hamburger-icon span {
             width: 25px;
-            height: 3px;
+            height: 2px;
+            padding: 4px;
             background-color: black;
             border-radius: 2px;
             transition: all 0.3s ease;
         }
 
         .hamburger-icon.active span:nth-child(1) {
-            transform: rotate(45deg);
+            transform: rotate(45deg) translateY(-1px);
         }
 
 
 
         .hamburger-icon.active span:nth-child(2) {
-            transform: rotate(-45deg);
+            transform: rotate(-45deg) translateY(1px);
         }
 
         .menu-overlay {
@@ -254,7 +253,7 @@
             use: "HTML5",
             j2sPath: "https://chemapps.stolaf.edu/jmol/jsmol/j2s",
             serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-            script: "load https://files.rcsb.org/download/2M53.pdb; cartoon; color structure; spin on;",
+            script: "load https://files.rcsb.org/download/2M53.pdb; cartoon; spin on; color red;",
             disableJ2SLoadMonitor: true,
             disableInitialConsole: true,
         };
