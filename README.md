@@ -39,9 +39,7 @@
 
 * ```/Model``` describes a XGBoost model built for predicting aptamer target interactions (Binding vs No Binding)
    * For more details: <href>https://github.com/rpgv/AptaCom/tree/main/Model</href>
-<h1>AptaCom Website</h1><br>
-<a href="https://jc-biotechaiteam.com/AptaCom/">Click here to access</a><br><br>
-<img width="1245" height="741" alt="Screenshot 2025-10-03 at 17 28 59" src="https://github.com/user-attachments/assets/2a47ef5f-b834-435e-8870-6ecbd2f34209" />
+
 
 
   
