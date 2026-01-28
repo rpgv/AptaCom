@@ -1,6 +1,9 @@
-pandas==2.2.2
-pandas-flavor==0.6.0
+joblib==1.5.3
+numpy==2.0.2
+pandas==2.3.3
 PyBioMed==1.0
-rich==14.0.0
-xgboost==2.1.0
-
+rich==14.3.1
+rust-sasa-python==0.1.1
+scikit-learn==1.6.1
+scipy==1.13.1
+xgboost==2.1.4

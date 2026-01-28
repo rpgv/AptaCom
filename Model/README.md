@@ -46,24 +46,19 @@ Run on python3.8 or higher
 ## Requirements
 
 To run this script, you'll need the following Python packages:
-
-1.  **XGBoost:** 
-    *   Core XGBoost implementation for classification;
-    *   Installation: `pip install xgboost`
-
-2.  **pandas:**
-    *   To load input (CSV shaped file);
-    *   Installation: `pip install pandas`
-
-3.  **pyBioMed:**
-    *   Extracts features from sequences used in prediction;
-    *   Installation: `pip install pyBioMed`
-
-4.  **rust-sasa-python:**
-    *   Extracts features from protein pdb files used in prediction;
-    *   Installation: `pip install rust-sasa-python`
-
-5.  **MXfold2:**
+```
+joblib==1.5.3
+numpy==2.0.2
+pandas==2.3.3
+PyBioMed==1.0
+rich==14.3.1
+rust-sasa-python==0.1.1
+scikit-learn==1.6.1
+scipy==1.13.1
+xgboost==2.1.4
+```
+Additionally the external package:
+**MXfold2:**
     *   Extracts Aptamer secondary structure;
     *   Installation: <href>https://github.com/mxfold/mxfold2</href>
     *   In case of unsucessful installation - alternative methods for secondary structure prediction can be used - it only requires a colum 'SS' on the input CSV file;

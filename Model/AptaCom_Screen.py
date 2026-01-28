@@ -118,12 +118,12 @@ def get_features(df):
 ############ Protein SASA Extraction ############################
 aa_list = ["GLY","ALA","VAL","LEU","ILE","THR","SER","MET","CYS","PRO","PHE","TYR","TRP","HIS","LYS","ARG","ASP","GLU","ASN","GLN"]
 def residue_exposure_map(pdb_file_path): #calculates sasa for each restype in protein; 
-    sasa = rp.calculate_residue_sasa(pdb_file_path) 
+    sasa = rp.calculate_sasa_at_residue_level(pdb_file_path) 
     print(sasa)
     sasa_per_restype = {f"sasa_{i}":0 for i in aa_list} # replace the list of nn by list of aa
     for i in sasa:
-        restype = str(f"sasa_{i.residue_name}")
-        sasa_per_restype[restype]+=float(i.sasa)
+        restype = str(f"sasa_{i[0].split('_')[1]}")
+        sasa_per_restype[restype]+=float(i[1])
     return sasa_per_restype
 
 def build_df(dataframe:pd.DataFrame):#This function receives a dataframe containing a aptamer/target features and identification keys relating to pdb files;
